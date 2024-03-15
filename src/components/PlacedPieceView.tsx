@@ -1,4 +1,4 @@
-import { PlacedPiece } from './types';
+import { PlacedPiece } from '../gameCore/types';
 
 export function PlacedPieceView({
     piece,
