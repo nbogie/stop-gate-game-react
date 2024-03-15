@@ -1,4 +1,12 @@
-# React + TypeScript + Vite
+# Stop-gate game (JavaScript, React, TypeScript)
+
+Implementing the rules of a game by Goran Andersson.
+
+[details and rules at bgg](https://boardgamegeek.com/boardgame/7450/stop-gate)
+
+This implementation tries to stay simple.
+
+## original react + typescript + vite template notes
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
