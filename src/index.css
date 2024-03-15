@@ -36,11 +36,13 @@
     aspect-ratio: 1;
     user-select: none;
     background-color: gainsboro;
+    border-radius: 0.1rem;
 }
 
 .placedPiece {
     user-select: none;
-    margin: 0.5rem;
+    margin: 0.4rem;
+    border-radius: 0.1rem;
 }
 
 .turnIndicator {
