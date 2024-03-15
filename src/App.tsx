@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './App.css';
 import { CellViews } from './CellViews';
 import { PlacedPieceView } from './PlacedPieceView';
 import { isLegalPiecePlacement } from './isLegalPiecePlacement';
@@ -26,10 +25,11 @@ function App() {
     return (
         <div className="app">
             <>
+                <h1>Stop-Gate</h1>
                 <div className="boardGrid">
-                    {/* We only add these cells to add click-handlers at each
-                    square. Instead, we could use one click handler which computes position
-                    based on click coords */}
+                    {/* We add these cells to add click-handlers at each
+                    square (and they give the grid its width).  Alternatively, we could use one click handler which computes position
+                    based on click coords, and specify the grid's overall width. */}
                     <CellViews
                         cells={allCells}
                         handleClickAtCell={handleClickAtCell}
