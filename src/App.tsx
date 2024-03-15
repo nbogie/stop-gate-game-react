@@ -1,39 +1,58 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
+import { CellViews } from './CellViews';
+import { PlacedPieceView } from './PlacedPieceView';
+import { isLegalPiecePlacement } from './isLegalPiecePlacement';
+import { Cell, ColOrRowNum, PlacedPiece } from './types';
+import { TurnIndicator } from './TurnIndicator';
+
+const allCells = createCells();
 
 function App() {
-    const [count, setCount] = useState(0);
+    const [placedPieces, setPlacedPieces] = useState<PlacedPiece[]>([]);
+    const whoseTurn = placedPieces.length % 2 === 0 ? 'red' : 'blue'; //always derive state rather than store it, where possible
+
+    function handleClickAtCell(cell: Cell) {
+        const pieceOrNull = isLegalPiecePlacement(
+            cell,
+            whoseTurn,
+            placedPieces
+        );
+        if (pieceOrNull) {
+            setPlacedPieces((prev) => [...prev, pieceOrNull]);
+        }
+    }
 
     return (
-        <>
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img
-                        src={reactLogo}
-                        className="logo react"
-                        alt="React logo"
+        <div className="app">
+            <>
+                <div className="boardGrid">
+                    {/* We only add these cells to add click-handlers at each
+                    square. Instead, we could use one click handler which computes position
+                    based on click coords */}
+                    <CellViews
+                        cells={allCells}
+                        handleClickAtCell={handleClickAtCell}
                     />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
+                    {placedPieces.map((piece) => {
+                        return <PlacedPieceView piece={piece} key={piece.id} />;
+                    })}
+                </div>
+                <TurnIndicator whoseTurn={whoseTurn} />
+            </>
+        </div>
     );
 }
 
 export default App;
+
+function createCells(): Cell[] {
+    const cells: Cell[] = [];
+    for (let i = 0; i < 64; i++) {
+        const x = (i % 8) as ColOrRowNum;
+        const y = Math.floor(i / 8) as ColOrRowNum;
+        const id = 'cell_' + x + ',' + y;
+        cells.push({ id, x, y });
+    }
+    return cells;
+}
